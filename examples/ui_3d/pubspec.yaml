@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   zflutter:
-    path: '../../zflutter/'
+    path: ../../../zflutter/
 
 
   # The following adds the Cupertino Icons font to your application.

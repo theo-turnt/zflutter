@@ -42,7 +42,7 @@ class RenderZToBoxAdapter extends RenderZBox
     final ZParentData anchorParentData = parentData as ZParentData;
     child.layout(BoxConstraints.expand(height: height, width: width),
         parentUsesSize: false);
-    size = constraints.smallest;
+    size = computeDryLayout(constraints);
 
     final x = width / 2;
     final y = height / 2;
@@ -66,6 +66,11 @@ class RenderZToBoxAdapter extends RenderZBox
     });
 
     performSort();
+  }
+
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    return constraints.smallest;
   }
 
   @override

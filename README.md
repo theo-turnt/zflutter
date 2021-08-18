@@ -3,7 +3,7 @@
 
 # Zflutter
 
-<a  href="https://z.flutter.gallery/"><img align="right"  height="250px" src="https://github.com/jamesblasco/zflutter/blob/master/docs/assets/images/ui3d.gif?raw"/></a> 
+<a  href="https://z.flutter.gallery/"><img align="right"  height="250px" src="https://github.com/jamesblasco/zflutter/blob/master/docs/assets/images/ui3d.gif?raw"/></a>
 
 <a  href="https://pub.dev/packages/zflutter"><img  class="shield-button"  src="https://img.shields.io/pub/v/zflutter.svg?logo=flutter&color=blue&style=for-the-badge" /></a>
 
@@ -23,7 +23,7 @@ To read the docs and see examples visit [z.flutter.gallery](https://z.flutter.ga
 
 # Zflutter is based on Zdog
 
-First we would like to give the mertits to [Zdog](https://zzz.dog), the pseudo-3D JavaScript engine that has been the base inspiration for this project. 
+First we would like to give the mertits to [Zdog](https://zzz.dog), the pseudo-3D JavaScript engine that has been the base inspiration for this project.
 
 We encourage to take a look to [Zdog](https://zzz.dog) and enjoy their awesome examples and documentation.
 

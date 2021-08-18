@@ -162,6 +162,19 @@ class RenderZShape extends RenderZBox {
     performSort();
   }
 
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    final desiredWidth = constraints.maxWidth;
+    final desiredHeight = constraints.maxHeight;
+    final desiredSize = Size(desiredWidth, desiredHeight);
+    return constraints.constrain(desiredSize);
+  }
+
+  @override
+  void performResize() {
+    size = computeDryLayout(constraints);
+  }
+
   List<ZPathCommand> transformedPath = [];
 
   void performPathCommands() {
