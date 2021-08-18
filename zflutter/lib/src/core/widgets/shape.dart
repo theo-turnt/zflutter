@@ -36,6 +36,8 @@ class ZShape extends SingleChildRenderObjectWidget with ZWidget {
   /// the path with this color
   final Color color;
 
+  final Color strokeColor;
+
   /// The width that will be used to paint the path
   final double stroke;
 
@@ -61,6 +63,7 @@ class ZShape extends SingleChildRenderObjectWidget with ZWidget {
     Key key,
     this.path,
     this.color,
+    this.strokeColor,
     this.front = const ZVector.only(z: 1),
     this.backfaceColor,
     this.stroke = 1,
@@ -78,6 +81,7 @@ class ZShape extends SingleChildRenderObjectWidget with ZWidget {
   RenderZShape createRenderObject(BuildContext context) {
     return RenderZShape(
       color: color,
+      strokeColor: strokeColor,
       path: path ?? [],
       stroke: stroke,
       close: closed,
@@ -91,6 +95,7 @@ class ZShape extends SingleChildRenderObjectWidget with ZWidget {
   @override
   void updateRenderObject(BuildContext context, RenderZShape renderObject) {
     renderObject..color = color;
+    renderObject..strokeColor = strokeColor;
     renderObject..path = path ?? [];
     renderObject..stroke = stroke;
     renderObject..close = closed;

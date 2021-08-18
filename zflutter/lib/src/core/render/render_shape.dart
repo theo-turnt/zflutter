@@ -18,6 +18,16 @@ class RenderZShape extends RenderZBox {
     markNeedsPaint();
   }
 
+  Color _strokeColor;
+
+  Color get strokeColor => _strokeColor;
+
+  set strokeColor(Color value) {
+    if (_strokeColor == value) return;
+    _strokeColor = value;
+    markNeedsPaint();
+  }
+
   Color _backfaceColor;
 
   Color get backfaceColor => _backfaceColor;
@@ -72,6 +82,7 @@ class RenderZShape extends RenderZBox {
   }
 
   double _sortValue;
+
   double get sortValue => _sortValue;
 
   set sortValue(double value) {
@@ -100,6 +111,7 @@ class RenderZShape extends RenderZBox {
 
   RenderZShape({
     Color color,
+    Color strokeColor,
     Color backfaceColor,
     ZVector front = const ZVector.only(z: 1),
     bool close = false,
@@ -119,6 +131,7 @@ class RenderZShape extends RenderZBox {
         _close = close,
         _fill = fill,
         _color = color,
+        _strokeColor = strokeColor,
         _path = path;
 
   @override
@@ -242,7 +255,8 @@ class RenderZShape extends RenderZBox {
       final color = renderColor;
 
       renderer.renderPath(transformedPath, isClosed: isClosed);
-      if (stroke != null && stroke > 0) renderer.stroke(color, stroke);
+      if (stroke != null && stroke > 0)
+        renderer.stroke(strokeColor ?? color, stroke);
       if (fill == true) renderer.fill(color);
     }
 

@@ -1,6 +1,7 @@
+import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
 import 'package:zflutter/zflutter.dart';
-import 'dart:math' as math;
 
 class ZRect extends ZShape {
   final double width;
@@ -11,6 +12,7 @@ class ZRect extends ZShape {
     @required this.width,
     @required this.height,
     Color color,
+    Color strokeColor,
     Color backfaceColor,
     double stroke = 1,
     bool fill = false,
@@ -19,6 +21,7 @@ class ZRect extends ZShape {
         super(
             key: key,
             color: color,
+            strokeColor: strokeColor,
             backfaceColor: backfaceColor,
             stroke: stroke,
             closed: true,
