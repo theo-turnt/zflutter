@@ -6,11 +6,10 @@ import 'package:flutter/physics.dart';
 import 'package:zflutter/zflutter.dart';
 
 class Dices extends StatefulWidget {
-  _PhysicsAnimation createState() => _DicesState();
+  _DicesState createState() => _DicesState();
 }
 
-class _DicesState extends State<Dices>
-    with SingleTickerProviderStateMixin {
+class _DicesState extends State<Dices> with SingleTickerProviderStateMixin {
   AnimationController animationController;
 
   SpringSimulation simulation;
