@@ -12,11 +12,11 @@ class ZHemisphere extends StatelessWidget {
 
   final double stroke;
 
-  final Color color;
-  final bool visible;
+  final Color? color;
+  final bool? visible;
 
   // final ZVector front;
-  final Color backfaceColor;
+  final Color? backfaceColor;
 
   //var front = ZVector.only(z: 1);
   ZHemisphere({
@@ -53,13 +53,13 @@ class _ZCylinderMiddle extends ZShape {
   final double diameter;
 
   _ZCylinderMiddle(
-      {this.diameter, List<ZPathCommand> path, double stroke = 1, Color color})
+      {required this.diameter, List<ZPathCommand>? path, double stroke = 1, Color? color})
       : super(path: [], stroke: stroke, color: color);
 
   @override
   _RenderZHemisphere createRenderObject(BuildContext context) {
     return _RenderZHemisphere(
-      path: path,
+      path: path!,
       stroke: stroke,
       diameter: diameter,
       color: color,
@@ -71,7 +71,7 @@ class _ZCylinderMiddle extends ZShape {
       BuildContext context, _RenderZHemisphere renderObject) {
     renderObject.diameter = diameter;
     renderObject.stroke = stroke;
-    renderObject.path = path;
+    renderObject.path = path!;
     renderObject.color = color;
   }
 }
@@ -88,7 +88,7 @@ class _RenderZHemisphere extends RenderZShape {
     markNeedsPaint();
   }
 
-  ZVector apex;
+  late ZVector apex;
   @override
   void performLayout() {
     final ZParentData anchorParentData = parentData as ZParentData;
@@ -109,7 +109,7 @@ class _RenderZHemisphere extends RenderZShape {
   }
 
   _RenderZHemisphere(
-      {List<ZPathCommand> path, double diameter, double stroke, Color color})
+      {List<ZPathCommand> path = const [], required double diameter, double stroke = 1, Color? color})
       : _diameter = diameter,
         super(path: path, stroke: stroke, color: color, fill: true);
 
@@ -127,7 +127,7 @@ class _RenderZHemisphere extends RenderZShape {
     renderer.move(origin);
     renderer.arc(x, y, demoRadius, startAngle, endAnchor);
     renderer.closePath();
-    if (stroke > 0) renderer.stroke(color, stroke);
-    if (fill) renderer.fill(color);
+    if (stroke > 0 && color != null) renderer.stroke(color!, stroke);
+    if (fill && color != null) renderer.fill(color!);
   }
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:zflutter/src/core/renderer.dart';
 
 import 'core.dart';
@@ -24,23 +23,19 @@ abstract class ZPathCommand {
 }
 
 class ZMove extends ZPathCommand {
-  ZVector _point;
+  //todo use late or nullable ?
+  late ZVector _point;
 
   ZVector _renderPoint;
 
   ZVector get endRenderPoint => _renderPoint;
 
-  ZMove.vector(this._point) {
-    _renderPoint = _point.copy();
-  }
+  ZMove.vector(this._point) : _renderPoint = _point.copy();
 
-  ZMove(double x, double y, double z) {
-    _renderPoint = ZVector(x, y, z);
-  }
+  ZMove(double x, double y, double z) : _renderPoint = ZVector(x, y, z);
 
-  ZMove.only({double x = 0, double y = 0, double z = 0}) {
-    _renderPoint = ZVector(x, y, z);
-  }
+  ZMove.only({double x = 0, double y = 0, double z = 0})
+      : _renderPoint = ZVector(x, y, z);
 
   void reset() {
     _renderPoint = _point;
@@ -68,23 +63,19 @@ class ZMove extends ZPathCommand {
 }
 
 class ZLine extends ZPathCommand {
-  ZVector _point;
+  //todo use late or nullable ?
+  late ZVector _point;
 
   ZVector _renderPoint;
 
   ZVector get endRenderPoint => _renderPoint;
 
-  ZLine.vector(this._point) {
-    _renderPoint = _point.copy();
-  }
+  ZLine.vector(this._point) : _renderPoint = _point.copy();
 
-  ZLine(double x, double y, double z) {
-    _renderPoint = ZVector(x, y, z);
-  }
+  ZLine(double x, double y, double z) : _renderPoint = ZVector(x, y, z);
 
-  ZLine.only({double x = 0, double y = 0, double z = 0}) {
-    _renderPoint = ZVector(x, y, z);
-  }
+  ZLine.only({double x = 0, double y = 0, double z = 0})
+      : _renderPoint = ZVector(x, y, z);
 
   void reset() {
     _renderPoint = _point;
@@ -118,9 +109,7 @@ class ZBezier extends ZPathCommand {
 
   ZVector get endRenderPoint => renderPoints.last;
 
-  ZBezier(this.points) {
-    renderPoints = points.map((e) => e.copy()).toList();
-  }
+  ZBezier(this.points) : renderPoints = points.map((e) => e.copy()).toList();
 
   void reset() {
     /* renderPoints.asMap().forEach((index, vector) {
@@ -154,20 +143,17 @@ class ZBezier extends ZPathCommand {
 const double _arcHandleLength = 9 / 16;
 
 class ZArc extends ZPathCommand {
-  List<ZVector> points;
-  ZVector _previous = ZVector.zero;
+  late List<ZVector> points;
+  ZVector? _previous = ZVector.zero;
 
-  List<ZVector> renderPoints;
+  late List<ZVector> renderPoints;
 
   ZVector get endRenderPoint => renderPoints.last;
 
-  ZArc.list(this.points, [this._previous]) {
-    renderPoints = points.map((e) => e.copy()).toList();
-  }
+  ZArc.list(this.points, [this._previous])
+      : renderPoints = points.map((e) => e.copy()).toList();
 
-  ZArc({@required ZVector corner, @required ZVector end, ZVector previous})
-      : assert(corner != null && end != null,
-            'Corner and end points can\'t be null') {
+  ZArc({required ZVector corner, required ZVector end, ZVector? previous}) {
     _previous = previous;
 
     points = [corner, end];
@@ -192,7 +178,7 @@ class ZArc extends ZPathCommand {
     var prev = _previous;
     var corner = renderPoints[0];
     var end = renderPoints[1];
-    var a = ZVector.lerp(prev, corner, _arcHandleLength);
+    var a = ZVector.lerp(prev!, corner, _arcHandleLength);
     var b = ZVector.lerp(end, corner, _arcHandleLength);
     renderer.bezier(a, b, end);
   }
@@ -207,7 +193,6 @@ class ZArc extends ZPathCommand {
 
   @override
   set previous(ZVector previousPoint) {
-    assert(previousPoint != null);
     _previous = previousPoint;
   }
 

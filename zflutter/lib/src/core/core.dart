@@ -1,18 +1,16 @@
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:quiver/core.dart';
 
-import 'dart:math' as math;
-
+export 'path_command.dart';
+export 'render/render_box.dart';
+export 'render/render_shape.dart';
+export 'renderer.dart';
+export 'widgets/box_adapter.dart';
 export 'widgets/positioned.dart';
 export 'widgets/shape.dart';
 export 'widgets/widget.dart';
-export 'render/render_box.dart';
-export 'render/render_shape.dart';
-export 'path_command.dart';
-export 'renderer.dart';
-
-export 'widgets/box_adapter.dart';
 
 const tau = math.pi * 2;
 
@@ -23,15 +21,12 @@ class ZVector {
   final double y;
   final double z;
 
-  const ZVector(this.x, this.y, this.z)
-      : assert(x != null && y != null && y != null);
+  const ZVector(this.x, this.y, this.z);
 
-  const ZVector.only({this.x = 0, this.y = 0, this.z = 0})
-      : assert(x != null && y != null && y != null);
+  const ZVector.only({this.x = 0, this.y = 0, this.z = 0});
 
   const ZVector.all(double value)
-      : assert(value != null),
-        this.x = value,
+      : this.x = value,
         this.y = value,
         this.z = value;
   static const ZVector zero = ZVector.all(0);
@@ -57,7 +52,7 @@ class ZVector {
     return ZVector(this.x + v.x, this.y + v.y, this.z + v.z);
   }
 
-  ZVector rotate(ZVector rotation) {
+  ZVector rotate(ZVector? rotation) {
     if (rotation == null) return this;
 
     return this.rotateZ(rotation.z).rotateY(rotation.y).rotateX(rotation.x);
@@ -75,21 +70,21 @@ class ZVector {
     return _rotateProperty(angle, Axis.x, Axis.z);
   }
 
-  ZVector _rotateProperty(double angle, Axis propA, Axis propB) {
+  ZVector _rotateProperty(double? angle, Axis propA, Axis propB) {
     if (angle == null || angle % tau == 0) {
       return this;
     }
     var cos = math.cos(angle);
     var sin = math.sin(angle);
-    var a = toMap[propA];
-    var b = toMap[propB];
+    var a = toMap[propA]!;
+    var b = toMap[propB]!;
 
     return replaceAxisInMap(
         {propA: a * cos - b * sin, propB: b * cos + a * sin});
   }
 
   replaceAxisInMap(Map<Axis, double> axis) {
-    double x, y, z;
+    double? x, y, z;
     axis.forEach((key, value) {
       if (key == Axis.x) x = value;
       if (key == Axis.y) y = value;
@@ -104,25 +99,25 @@ class ZVector {
         Axis.z: z,
       };
 
-  ZVector multiply(ZVector scale) {
+  ZVector multiply(ZVector? scale) {
     if (scale == null) return this;
-    final mx = scale?.x ?? 1;
-    final my = scale?.y ?? 1;
-    final mz = scale?.z ?? 1;
+    final mx = scale.x;
+    final my = scale.y;
+    final mz = scale.z;
     return ZVector(x * mx, y * my, z * mz);
   }
 
-  ZVector divide(ZVector scale) {
+  ZVector divide(ZVector? scale) {
     if (scale == null) return this;
-    final mx = scale?.x ?? 1;
-    final my = scale?.y ?? 1;
-    final mz = scale?.z ?? 1;
+    final mx = scale.x;
+    final my = scale.y;
+    final mz = scale.z;
     return ZVector(x / mx, y / my, z / mz);
   }
 
-  ZVector multiplyScalar(num scale) {
+  ZVector multiplyScalar(num? scale) {
     if (scale == null) return this;
-    final m = scale ?? 1;
+    final m = scale;
     return ZVector(x * m, y * m, z * m);
   }
 
@@ -130,11 +125,11 @@ class ZVector {
     return this.multiply(scale).rotate(rotation).addVector(translation);
   }
 
-  static ZVector lerp(ZVector a, ZVector b, double t) {
-    final x = lerpDouble(a.x, b?.x ?? 0.0, t);
-    final y = lerpDouble(a.y, b?.y ?? 0.0, t);
-    final z = lerpDouble(a.z, b?.z ?? 0.0, t);
-    return ZVector(x, y, z);
+  static ZVector lerp(ZVector a, ZVector? b, double t) {
+    final double? x = lerpDouble(a.x, b?.x ?? 0.0, t);
+    final double? y = lerpDouble(a.y, b?.y ?? 0.0, t);
+    final double? z = lerpDouble(a.z, b?.z ?? 0.0, t);
+    return ZVector(x!, y!, z!);
   }
 
   double magnitude() {
@@ -159,7 +154,7 @@ class ZVector {
     return ZVector(this.x, this.y, this.z);
   }
 
-  ZVector copyWith({double x, double y, double z}) {
+  ZVector copyWith({double? x, double? y, double? z}) {
     return ZVector(x ?? this.x, y ?? this.y, z ?? this.z);
   }
 

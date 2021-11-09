@@ -8,31 +8,31 @@ import '../path_command.dart';
 import '../renderer.dart';
 
 class RenderZShape extends RenderZBox {
-  Color _color;
+  Color? _color;
 
-  Color get color => _color;
+  Color? get color => _color;
 
-  set color(Color value) {
+  set color(Color? value) {
     if (_color == value) return;
     _color = value;
     markNeedsPaint();
   }
 
-  Color _strokeColor;
+  Color? _strokeColor;
 
-  Color get strokeColor => _strokeColor;
+  Color? get strokeColor => _strokeColor;
 
-  set strokeColor(Color value) {
+  set strokeColor(Color? value) {
     if (_strokeColor == value) return;
     _strokeColor = value;
     markNeedsPaint();
   }
 
-  Color _backfaceColor;
+  Color? _backfaceColor;
 
-  Color get backfaceColor => _backfaceColor;
+  Color? get backfaceColor => _backfaceColor;
 
-  set backfaceColor(Color value) {
+  set backfaceColor(Color? value) {
     if (_backfaceColor == value) return;
     _backfaceColor = value;
     markNeedsPaint();
@@ -81,7 +81,7 @@ class RenderZShape extends RenderZBox {
     markNeedsLayout();
   }
 
-  double _sortValue;
+  double _sortValue = 0.0;
 
   double get sortValue => _sortValue;
 
@@ -103,27 +103,23 @@ class RenderZShape extends RenderZBox {
 
   double get stroke => _stroke;
 
-  set stroke(double value) {
+  set stroke(double? value) {
     assert(value != null && value >= 0);
     if (_stroke == value) return;
-    _stroke = value;
+    _stroke = value!;
   }
 
   RenderZShape({
-    Color color,
-    Color strokeColor,
-    Color backfaceColor,
+    Color? color,
+    Color? strokeColor,
+    Color? backfaceColor,
     ZVector front = const ZVector.only(z: 1),
     bool close = false,
     bool visible = true,
     bool fill = false,
     double stroke = 1,
     List<ZPathCommand> path = const [],
-  })  : assert(path != null),
-        assert(front != null),
-        assert(close != null),
-        assert(fill != null),
-        assert(stroke != null && stroke >= 0),
+  })  : assert(stroke >= 0),
         _stroke = stroke,
         _visible = visible,
         _backfaceColor = backfaceColor,
@@ -140,8 +136,8 @@ class RenderZShape extends RenderZBox {
   /// With this markNeedsPaint will only repaint this core object and not their ancestors
   bool get isRepaintBoundary => true;
 
-  ZVector _transformedFront;
-  ZVector normalVector;
+  late ZVector _transformedFront;
+  late ZVector normalVector;
   final Matrix4 matrix4 = Matrix4.identity();
 
   @override
@@ -231,7 +227,7 @@ class RenderZShape extends RenderZBox {
 
   Color get renderColor {
     final isBackFaceColor = backfaceColor != null && isFacingBack;
-    return isBackFaceColor ? backfaceColor : color;
+    return isBackFaceColor ? backfaceColor! : (color ?? Color.fromARGB(0, 0, 0, 0));
   }
 
   @override
@@ -252,11 +248,10 @@ class RenderZShape extends RenderZBox {
 
       var isTwoPoints = transformedPath.length == 2 && (path[1] is ZLine);
       var isClosed = !isTwoPoints && _close == true;
-      final color = renderColor;
+      final Color color = renderColor;
 
       renderer.renderPath(transformedPath, isClosed: isClosed);
-      if (stroke != null && stroke > 0)
-        renderer.stroke(strokeColor ?? color, stroke);
+      if (stroke > 0) renderer.stroke(strokeColor ?? color, stroke);
       if (fill == true) renderer.fill(color);
     }
 
@@ -270,7 +265,7 @@ class RenderZShape extends RenderZBox {
     }
     final color = renderColor;
 
-    final point = transformedPath.first?.endRenderPoint ?? origin;
+    final point = transformedPath.first.endRenderPoint;
     renderer.begin();
     final radius = stroke / 2;
     renderer.circle(point.x, point.y, radius);

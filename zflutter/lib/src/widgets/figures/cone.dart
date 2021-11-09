@@ -1,23 +1,23 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:zflutter/zflutter.dart';
-import 'dart:math' as math;
 
 class ZCone extends ZCircle {
   final double diameter;
   final double length;
 
   ZCone({
-    this.length,
-    Key key,
-    @required this.diameter,
-    Color color,
+    Key? key,
+    required this.length,
+    required this.diameter,
+    Color? color,
+    Color? backfaceColor,
     bool closed = false,
-    Color backfaceColor,
     double stroke = 1,
     bool fill = true,
     ZVector front = const ZVector.only(z: 1),
-  })  : assert(diameter != null),
-        super(
+  }) : super(
             key: key,
             color: color,
             backfaceColor: backfaceColor,
@@ -31,7 +31,7 @@ class ZCone extends ZCircle {
   RenderZCone createRenderObject(BuildContext context) {
     return RenderZCone(
         color: color,
-        path: path,
+        path: path!,
         stroke: stroke,
         close: closed,
         fill: fill,
@@ -45,7 +45,7 @@ class ZCone extends ZCircle {
   @override
   void updateRenderObject(BuildContext context, RenderZCone renderObject) {
     renderObject..color = color;
-    renderObject..path = path;
+    renderObject..path = path!;
     renderObject..stroke = stroke;
     renderObject..close = closed;
     renderObject..fill = fill;
@@ -63,7 +63,7 @@ class RenderZCone extends RenderZShape {
   double get length => _length;
 
   set length(double value) {
-    assert(value != null && value >= 0);
+    assert(value >= 0);
     if (_length == value) return;
     _length = value;
     markNeedsLayout();
@@ -74,26 +74,24 @@ class RenderZCone extends RenderZShape {
   double get diameter => _diameter;
 
   set diameter(double value) {
-    assert(value != null && value >= 0);
+    assert(value >= 0);
     if (_diameter == value) return;
     _diameter = value;
     markNeedsLayout();
   }
 
   RenderZCone({
-    double length,
-    double diameter,
-    Color color,
-    Color backfaceColor,
+    required double length,
+    required double diameter,
+    Color? color,
+    Color? backfaceColor,
     ZVector front = const ZVector.only(z: 1),
     bool close = false,
     bool visible = true,
     bool fill = false,
     double stroke = 1,
     List<ZPathCommand> path = const [],
-  })  : assert(length != null),
-        assert(diameter != null),
-        _length = length,
+  })  : _length = length,
         _diameter = diameter,
         super(
             color: color,
@@ -108,7 +106,7 @@ class RenderZCone extends RenderZShape {
   ZVector tangentA = ZVector.zero;
   ZVector tangentB = ZVector.zero;
 
-  ZVector apex;
+  late ZVector apex;
 
   @override
   void performLayout() {
@@ -173,7 +171,7 @@ class RenderZCone extends RenderZShape {
     ];
 
     renderer.renderPath(path);
-    if (stroke > 0) renderer.stroke(color, stroke);
-    if (fill) renderer.fill(color);
+    if (stroke > 0 && color != null) renderer.stroke(color!, stroke);
+    if (fill && color != null) renderer.fill(color!);
   }
 }

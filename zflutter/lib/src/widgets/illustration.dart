@@ -7,9 +7,9 @@ class ZIllustration extends ZMultiChildWidget {
   final double zoom;
 
   ZIllustration({
-    List<Widget> children,
+    List<Widget>? children,
     this.zoom = 1,
-  })  : assert(zoom != null && zoom >= 0),
+  })  : assert(zoom >= 0),
         super(children: children);
 
   @override
@@ -25,21 +25,19 @@ class ZIllustration extends ZMultiChildWidget {
 }
 
 class RenderZIllustration extends RenderZMultiChildBox {
-  double _zoom = 1;
+  double _zoom;
 
   double get zoom => _zoom;
 
   set zoom(double value) {
-    assert(_zoom != null && _zoom >= 0);
+    assert(_zoom >= 0);
     if (_zoom == value) return;
     _zoom = value;
     markNeedsPaint();
   }
 
-  RenderZIllustration({
-    double zoom,
-    List<RenderZBox> children,
-  })  : assert(zoom != null && zoom >= 0),
+  RenderZIllustration({double zoom = 1, List<RenderZBox>? children})
+      : assert(zoom >= 0),
         _zoom = zoom,
         super(children: children, sortMode: SortMode.update);
 
@@ -58,7 +56,7 @@ class RenderZIllustration extends RenderZMultiChildBox {
 
   // TODO: Work on hitTest
   @override
-  bool hitTest(BoxHitTestResult result, {Offset position}) {
+  bool hitTest(BoxHitTestResult result, {Offset? position}) {
     assert(() {
       if (!hasSize) {
         if (debugNeedsLayout) {
@@ -90,7 +88,7 @@ class RenderZIllustration extends RenderZMultiChildBox {
       }
       return true;
     }());
-    if (size.contains(position)) {
+    if (position != null && size.contains(position)) {
       return true;
     }
     return false;

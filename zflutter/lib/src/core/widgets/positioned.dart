@@ -43,41 +43,41 @@ class ZTransform {
 class ZPositioned extends ZUpdateParentDataWidget<ZParentData> with ZWidget {
   /// Creates a widget that controls where a child of a [ZStack] is positioned.
   ZPositioned({
-    Key key,
+    Key? key,
     this.scale = ZVector.identity,
     this.translate = ZVector.zero,
     this.rotate = ZVector.zero,
-    @required Widget child,
+    required Widget child,
   }) : super(key: key, child: child);
 
   ZPositioned.scale({
-    Key key,
+    Key? key,
     double x = 1,
     double y = 1,
     double z = 1,
-    @required Widget child,
+    required Widget child,
   })  : this.scale = ZVector(x, y, z),
         this.rotate = ZVector.zero,
         this.translate = ZVector.zero,
         super(key: key, child: child);
 
   ZPositioned.translate({
-    Key key,
+    Key? key,
     double x = 0,
     double y = 0,
     double z = 0,
-    @required Widget child,
+    required Widget child,
   })  : this.scale = ZVector.identity,
         this.rotate = ZVector.zero,
         this.translate = ZVector(x, y, z),
         super(key: key, child: child);
 
   ZPositioned.rotate({
-    Key key,
+    Key? key,
     double x = 0,
     double y = 0,
     double z = 0,
-    @required Widget child,
+    required Widget child,
   })  : this.scale = ZVector.identity,
         this.rotate = ZVector(x, y, z),
         this.translate = ZVector.zero,
@@ -128,10 +128,10 @@ class ZPositioned extends ZUpdateParentDataWidget<ZParentData> with ZWidget {
     }
 
     if (renderObject is RenderZMultiChildBox) {
-      RenderZBox child = renderObject.firstChild;
+      RenderZBox? child = renderObject.firstChild;
 
       while (child != null) {
-        final ZParentData childParentData = child.parentData as ZParentData;
+        final ZParentData? childParentData = child.parentData as ZParentData?;
         updateParentData(child, oldWidget, transform);
         child = childParentData?.nextSibling;
         needsLayout = true;
@@ -140,7 +140,7 @@ class ZPositioned extends ZUpdateParentDataWidget<ZParentData> with ZWidget {
 
     if (needsLayout) {
       renderObject.markNeedsLayout();
-      final AbstractNode targetParent = renderObject.parent;
+      final AbstractNode? targetParent = renderObject.parent;
       if (targetParent is RenderObject) targetParent.markNeedsLayout();
     }
   }
@@ -166,16 +166,16 @@ class ZPositioned extends ZUpdateParentDataWidget<ZParentData> with ZWidget {
     parentData.scale *= scale;
 
     if (renderObject is RenderZMultiChildBox) {
-      RenderZBox child = renderObject.firstChild;
+      RenderZBox? child = renderObject.firstChild;
 
       while (child != null) {
-        final ZParentData childParentData = child.parentData as ZParentData;
+        final ZParentData? childParentData = child.parentData as ZParentData?;
         startParentData(child, transform);
         child = childParentData?.nextSibling;
       }
     }
 
-    final AbstractNode targetParent = renderObject.parent;
+    final AbstractNode? targetParent = renderObject.parent;
     if (targetParent is RenderObject) targetParent.markNeedsLayout();
   }
 

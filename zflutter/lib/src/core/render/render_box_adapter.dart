@@ -25,8 +25,8 @@ class RenderZToBoxAdapter extends RenderZBox
   }
 
   RenderZToBoxAdapter({
-    double width,
-    double height,
+    required double width,
+    required double height,
   })  : _width = width,
         _height = height;
 
@@ -35,12 +35,12 @@ class RenderZToBoxAdapter extends RenderZBox
 
   // bool get isRepaintBoundary => true;
 
-  List<ZPathCommand> transformedPath;
+  late List<ZPathCommand> transformedPath;
 
   @override
   void performLayout() {
     final ZParentData anchorParentData = parentData as ZParentData;
-    child.layout(BoxConstraints.expand(height: height, width: width),
+    child?.layout(BoxConstraints.expand(height: height, width: width),
         parentUsesSize: false);
     size = computeDryLayout(constraints);
 
@@ -132,7 +132,7 @@ class RenderZToBoxAdapter extends RenderZBox
       context.pushLayer(
         layer,
         (context, _) {
-          context.paintChild(child, offset - Offset(width / 2, height / 2));
+          context.paintChild(child!, offset - Offset(width / 2, height / 2));
         },
         Offset.zero,
         childPaintBounds: context.estimatedBounds,

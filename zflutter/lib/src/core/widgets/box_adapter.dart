@@ -19,10 +19,10 @@ class ZToBoxAdapter extends SingleChildRenderObjectWidget with ZWidget {
 
   /// Creates a ZWidget that contains a single box widget.
   const ZToBoxAdapter({
-    Key key,
-    this.height,
-    this.width,
-    Widget child,
+    Key? key,
+    required this.height,
+    required this.width,
+    Widget? child,
   }) : super(key: key, child: child);
 
   @override
